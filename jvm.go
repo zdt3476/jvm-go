@@ -24,7 +24,7 @@ func main() {
 
 func startJvm(cmd *jcmd.Cmd) {
 	cp := classpath.Parse(cmd.XJreOption, cmd.CpOption)
-	fmt.Printf("Jvm: classpath[%v] class[%s] args[%v]", cp, cmd.Class, cmd.Args)
+	fmt.Printf("Jvm: classpath[%v] class[%s] args[%v]\n", cp, cmd.Class, cmd.Args)
 
 	cn := strings.Replace(cmd.Class, ".", string(os.PathSeparator), -1)
 	data, _, err := cp.ReadClass(cn)

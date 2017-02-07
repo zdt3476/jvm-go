@@ -3,6 +3,7 @@ package classpath
 import (
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func newWildcardEntry(path string) CompositeEntry {
@@ -13,12 +14,15 @@ func newWildcardEntry(path string) CompositeEntry {
 			return err
 		}
 
-		if info.IsDir() {
+		if info.IsDir() && baseDir != path {
 			return filepath.SkipDir
 		}
 
-		entry := newEntry(path)
-		ce = append(ce, entry)
+		if strings.HasSuffix(path, ".jar") ||
+			strings.HasSuffix(path, ".JAR") {
+			entry := newZipEntry(path)
+			ce = append(ce, entry)
+		}
 
 		return nil
 	}
