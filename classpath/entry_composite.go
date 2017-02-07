@@ -10,7 +10,7 @@ type CompositeEntry []Entry
 func newCompositeEntry(pathList string) CompositeEntry {
 	paths := strings.Split(pathList, pathListSeparator)
 	ce := make(CompositeEntry, len(paths))
-	for i := 0; i < len(paths); i++ {
+	for i := range ce {
 		entry := newEntry(paths[i])
 		ce[i] = entry
 	}

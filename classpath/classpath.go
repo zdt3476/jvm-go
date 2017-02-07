@@ -2,7 +2,6 @@ package classpath
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -25,8 +24,6 @@ func Parse(jreOption, cpOption string) *Classpath {
 func (cp *Classpath) ReadClass(className string) ([]byte, Entry, error) {
 	className += ".class"
 
-	fmt.Println(className)
-
 	if data, entry, err := cp.bootClasspath.readClass(className); err == nil {
 		return data, entry, err
 	}
@@ -41,7 +38,7 @@ func (cp *Classpath) ReadClass(className string) ([]byte, Entry, error) {
 func (cp *Classpath) parseBootAndExtClasspath(jreOption string) {
 	jrePath, err := getJre(jreOption)
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
 
 	// jre/lib/*

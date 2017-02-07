@@ -15,7 +15,7 @@ type ZipEntry struct {
 func newZipEntry(path string) *ZipEntry {
 	absPath, err := filepath.Abs(path)
 	if err != nil {
-		log.Fatalln(absPath)
+		panic(absPath)
 	}
 	return &ZipEntry{absPath}
 }

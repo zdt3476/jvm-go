@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"os"
 	"strings"
 
 	"github.com/zdt3476/jvm-go/classpath"
@@ -26,10 +24,10 @@ func startJvm(cmd *jcmd.Cmd) {
 	cp := classpath.Parse(cmd.XJreOption, cmd.CpOption)
 	fmt.Printf("Jvm: classpath[%v] class[%s] args[%v]\n", cp, cmd.Class, cmd.Args)
 
-	cn := strings.Replace(cmd.Class, ".", string(os.PathSeparator), -1)
+	cn := strings.Replace(cmd.Class, ".", "/", -1)
 	data, _, err := cp.ReadClass(cn)
 	if err != nil {
-		log.Fatalf("Can not found or load main class:%v\n", cmd.Class)
+		panic("Can not found or load main class:%v\n", cmd.Class)
 	}
 
 	fmt.Printf("This class is: %v\n", string(data))
