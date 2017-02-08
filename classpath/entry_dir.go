@@ -2,7 +2,6 @@ package classpath
 
 import (
 	"io/ioutil"
-	"log"
 	"path/filepath"
 )
 

@@ -23,7 +23,7 @@ func readMember(cr *ClassReader, cp ConstantPool) *MemberInfo {
 		accessFlag:      cr.readUint16(),
 		nameIndex:       cr.readUint16(),
 		descriptorIndex: cr.readUint16(),
-		// attributes: readAttributes(cr, cp),
+		attributes:      readAttributes(cr, cp),
 	}
 }
 
@@ -31,10 +31,10 @@ func (mi *MemberInfo) AccessFlag() uint16 {
 	return mi.accessFlag
 }
 
-// func (mi *MemberInfo) Name() string {
-// 	return mi.cp.getUtf8(mi.nameIndex)
-// }
+func (mi *MemberInfo) Name() string {
+	return mi.cp.getUtf8(mi.nameIndex)
+}
 
-// func (mi *MemberInfo) Descriptor() string {
-// 	return mi.cp.getUtf8(mi.descriptorIndex)
-// }
+func (mi *MemberInfo) Descriptor() string {
+	return mi.cp.getUtf8(mi.descriptorIndex)
+}

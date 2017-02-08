@@ -2,7 +2,6 @@ package classpath
 
 import (
 	"errors"
-	"log"
 	"os"
 	"path/filepath"
 )

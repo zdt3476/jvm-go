@@ -39,14 +39,14 @@ func Parse(classData []byte) (cf *ClassFile, err error) {
 func (cf *ClassFile) read(cr *ClassReader) {
 	cf.readAndCheckMagic(cr)
 	cf.readAndCheckVersion(cr)
-	// cf.constantPool = readConstantPool(cr)
+	cf.constantPool = readConstantPool(cr)
 	cf.accessFlag = cr.readUint16()
 	cf.thisClass = cr.readUint16()
 	cf.superClass = cr.readUint16()
 	cf.interfaces = cr.readUint16s()
-	// cf.fields = readMembers(cr, cf.constantPool)
-	// cf.methods = readMembers(cr, cf.constantPool)
-	// cf.attributes = readAttributes(cr, cf.constantPool)
+	cf.fields = readMembers(cr, cf.constantPool)
+	cf.methods = readMembers(cr, cf.constantPool)
+	cf.attributes = readAttributes(cr, cf.constantPool)
 }
 
 func (cf *ClassFile) readAndCheckMagic(cr *ClassReader) {
@@ -88,16 +88,16 @@ func (cf *ClassFile) AccessFlag() uint16 {
 	return cf.accessFlag
 }
 
-// func (cf *ClassFile) ClassName() string {
-// 	return cf.constantPool.getClassName(cf.thisClass)
-// }
+func (cf *ClassFile) ClassName() string {
+	return cf.constantPool.getClassName(cf.thisClass)
+}
 
-// func (cf *ClassFile) SuperClassName() string {
-// 	if cf.superClass {
-// 		return cf.constantPool.getClassName(cf.superClass)
-// 	}
-// 	return ""
-// }
+func (cf *ClassFile) SuperClassName() string {
+	if cf.superClass > 0 {
+		return cf.constantPool.getClassName(cf.superClass)
+	}
+	return ""
+}
 
 func (cf *ClassFile) Fields() []*MemberInfo {
 	return nil
@@ -107,11 +107,11 @@ func (cf *ClassFile) Methods() []*MemberInfo {
 	return nil
 }
 
-// func (cf *ClassFile) InterfaceNames() []string {
-// 	ins := make([]string, len(cf.interfaces))
-//     for i, idx :=  range cf.interfaces {
-//         ins[i] = cf.constantPool.getClassName(idx)
-//     }
+func (cf *ClassFile) InterfaceNames() []string {
+	ins := make([]string, len(cf.interfaces))
+	for i, idx := range cf.interfaces {
+		ins[i] = cf.constantPool.getClassName(idx)
+	}
 
-// 	return ins
-// }
+	return ins
+}
